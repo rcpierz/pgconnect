@@ -1,0 +1,20 @@
+{
+  "name": "pgconnect",
+  "version": "1.0.0",
+  "description": "A simple api to connect to a daily expenses SQL database",
+  "main": "pgconnect.js",
+  "scripts": {
+    "test": "test",
+    "start": "nodemon pgconnect.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rcpierz/pgconnect.git"
+  },
+  "author": "RCPierz",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rcpierz/pgconnect/issues"
+  },
+  "homepage": "https://github.com/rcpierz/pgconnect#readme"
+}
