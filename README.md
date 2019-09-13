@@ -5,9 +5,10 @@ PGConnect is a Javascript Express application that exposes a PostgreSQL Database
 PGConnect runs on localhost on port 8000
 
 ##Components
--PGConnect: The NodeJS Application that establishes the server
--PGRouter: The Controller that handles traffic routing
--PGService: The Service layer to handle database connection [TODO]
+
+- [x] PGConnect: The NodeJS Application that establishes the server
+- [x] PGRouter: The Controller that handles traffic routing
+- [ ] PGService: The Service layer to handle database connection [TODO]
 
 ##Running
 To run the program, simply type
