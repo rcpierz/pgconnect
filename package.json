@@ -4,7 +4,8 @@
   "description": "A simple api to connect to a daily expenses SQL database",
   "main": "pgconnect.js",
   "scripts": {
-    "test": "test",
+    "test": "echo Testing not implemented",
+    "lint": "eslint .",
     "start": "nodemon pgconnect.js"
   },
   "repository": {
