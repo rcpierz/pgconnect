@@ -4,11 +4,20 @@ PGConnect is a NodeJS application that uses Express to create a web API to expos
 
 PGConnect runs on localhost on port 8000
 
+## To Do
+- [x] Move the DB connection from the Router layer into the Service layer
+- [x] Modify function definitions in pgservice so that they are properly accessed by the router module
+- [ ] Rework the callbacks between router and service module so that query output is correctly written to response object
+- [ ] Apply the callback functions for every endpoint in the router and service layer
+- [ ] Try-Catch the DB connection
+
+
+
 ## Components
 
 - [x] PGConnect: The NodeJS Application that establishes the server
 - [x] PGRouter: The Controller that handles traffic routing
-- [ ] PGService: The Service layer to handle database connection [TODO]
+- [x] PGService: The Service layer to handle database connection 
 
 ## Running
 To run the program, simply type
