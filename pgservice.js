@@ -11,16 +11,20 @@ const client = new Client({
 client.connect();
 console.log('[INFO] Database connection is established');
 
-function searchByColumn(column) {
-	client.query('SELECT '+column+' FROM dailyexpense;');
+exports.testLog = function() {
+	console.log('[TEST] Test endpoint reached');
 };
 
-var addEntry = (req) => {
+exports.searchByColumn = function(column, callback) {
+	client.query('SELECT '+column+' FROM dailyexpense;')
+		.then( output => {callback(output.rows)});
+};
+
+exports.addEntry = function(req) {
 	client.query('INSERT INTO dailyexpense VALUES('+req.body.id+',\''+req.body.date+'\',\''+req.body.meal+'\',\''+req.body.source+'\',\''+req.body.item+'\','+req.body.cost+');');
 };
 
-var deleteEntry = (id) => {
+exports.deleteEntry = function(id) {
 	client.query('DELETE FROM dailyexpense WHERE id = '+id);
 }
 
-module.exports = client

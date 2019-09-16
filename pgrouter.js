@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var pgservice = require('./pgservice');
+var pgservice = require('./pgservice.js');
 
 
 router.get('/', (req,res) =>{
@@ -12,9 +12,13 @@ router.get('/about',(req,res)=>{
 	res.send('About page')
 });
 
+router.get('/test',(req,res) => {
+	pgservice.testLog();
+})
+
 router.get('/entries/:column', (req,res)=>{
 	console.log('[ACCS] GET /entries/'+req.params.column);
-	pgservice.searchByColumn(req.params.column);
+	pgservice.searchByColumn(req.params.column, res.send);
 })
 
 
