@@ -9,22 +9,28 @@ const client = new Client({
 });
 
 client.connect();
-console.log('[INFO] Database connection is established');
+console.log('[SRVC] Database connection is established');
 
 exports.testLog = function() {
-	console.log('[TEST] Test endpoint reached');
+	console.log('[SRVC] running testLog function');
 };
 
 exports.searchByColumn = function(column, callback) {
+	console.log('[SRVC] searching dailyexpense table with criterion column = '+column);
 	client.query('SELECT '+column+' FROM dailyexpense;')
 		.then( output => {callback(output.rows)});
+		
 };
 
-exports.addEntry = function(req) {
-	client.query('INSERT INTO dailyexpense VALUES('+req.body.id+',\''+req.body.date+'\',\''+req.body.meal+'\',\''+req.body.source+'\',\''+req.body.item+'\','+req.body.cost+');');
+exports.addEntry = function(req, callback) {
+	console.log('[SRVC] adding a new entry to dailyexpense table with body = '+JSON.stringify(req.body));
+	client.query('INSERT INTO dailyexpense VALUES('+req.body.id+',\''+req.body.date+'\',\''+req.body.meal+'\',\''+req.body.source+'\',\''+req.body.item+'\','+req.body.cost+');')
+		.then( () => callback());
 };
 
-exports.deleteEntry = function(id) {
-	client.query('DELETE FROM dailyexpense WHERE id = '+id);
+exports.deleteEntry = function(id, callback) {
+	console.log('[SRVC] deleting entries with id = '+id);
+	client.query('DELETE FROM dailyexpense WHERE id = '+id)
+		.then( () => callback());
 }
 
