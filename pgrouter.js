@@ -35,4 +35,9 @@ router.delete('/entries/:id', (req, res) => {
   pgservice.deleteEntry(req.params.id, () => res.send('202 REQUEST RECEIVED'));
 });
 
+router.patch('/entries/:id', (req, res) => {
+  console.log('[ROUT] PATCH /entries/'+req.params.id);
+  pgservice.updateEntry(req.params.id, req.body.column, req.body.value, (output) => res.send('202 ACCEPTED'));
+});
+
 module.exports = router;

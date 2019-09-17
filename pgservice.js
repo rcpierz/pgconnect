@@ -35,3 +35,8 @@ exports.deleteEntry = function(id, callback) {
       .then( () => callback());
 };
 
+exports.updateEntry = function(id, column, value, callback) {
+  console.log('[SRVC] updating entry where id = '+id+': column '+column+'='+value);
+  client.query('UPDATE dailyexpense SET '+column+' = \''+value+'\' WHERE id = '+id)
+	.then( () => callback());
+};
