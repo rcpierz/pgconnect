@@ -19,15 +19,30 @@ router.get('/test', (req, res) => {
   res.send('Test Endpoint reached');
 });
 
-router.get('/entries/:column', (req, res)=>{
-  console.log('[ROUT] GET /entries/'+req.params.column);
-  pgservice.searchByColumn(req.params.column, (output) => res.send(output));
+router.get('/entries', (req,res) => {
+  console.log('[ROUT] GET /entries');
+  pgservice.findAll()
+      .then( output => res.send(output.rows));
 });
 
+router.get('/entries/total', (req, res) => {
+  console.log('[ROUT] GET /entries/total');
+  pgservice.findTotal( (output) => res.send(output));
+});
+
+router.get('/entries/column/:column', (req, res)=>{
+  console.log('[ROUT] GET /entries/column/'+req.params.column);
+  pgservice.findByColumn(req.params.column, (output) => res.send(output));
+});
+
+router.get('/entries/:id', (req, res) => {
+  console.log('[ROUT] GET /entries/'+req.params.id);
+  pgservice.findById(req.params.id, (output) => res.send(output));
+});
 
 router.post('/entries', (req, res) => {
   console.log('[ROUT] POST /entries');
-  pgservice.addEntry(req, () => res.send('201 CREATED'));
+  pgservice.addEntry(req, () => res.send('202 REQUEST RECEIVED'));
 });
 
 router.delete('/entries/:id', (req, res) => {
@@ -37,7 +52,13 @@ router.delete('/entries/:id', (req, res) => {
 
 router.patch('/entries/:id', (req, res) => {
   console.log('[ROUT] PATCH /entries/'+req.params.id);
-  pgservice.updateEntry(req.params.id, req.body.column, req.body.value, (output) => res.send('202 ACCEPTED'));
+  pgservice.updateEntryPartial(req.params.id, req.body.column, req.body.value, (output) => res.send('202 ACCEPTED'));
 });
+
+router.put('/entries/:id', (req, res) => {
+  console.log('[ROUT] PUT /entries/'+req.params.id);
+  pgservice.updateEntryFull(req, () => res.send('202 ACCEPTED'));
+});
+
 
 module.exports = router;
