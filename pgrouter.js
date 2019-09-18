@@ -46,7 +46,8 @@ router.get('/entries/:id', (req, res) => {
 router.post('/entries', (req, res) => {
   console.log('[ROUT] POST /entries');
   pgservice.addEntry(req)
-      .then( () => res.send('202 REQUEST RECEIVED'));
+    .then( pgservice.findById(req.body.id)
+      .then( (output) => res.send(output.rows) ));
 });
 
 router.delete('/entries/:id', (req, res) => {
