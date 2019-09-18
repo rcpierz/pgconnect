@@ -4,7 +4,9 @@
   "description": "A simple api to connect to a daily expenses SQL database",
   "main": "pgconnect.js",
   "scripts": {
-    "test": "test",
+    "test": "echo Testing not implemented",
+    "lint": "eslint .",
+    "lintfix": "eslint . --fix",
     "start": "nodemon pgconnect.js"
   },
   "repository": {
@@ -16,5 +18,12 @@
   "bugs": {
     "url": "https://github.com/rcpierz/pgconnect/issues"
   },
-  "homepage": "https://github.com/rcpierz/pgconnect#readme"
+  "homepage": "https://github.com/rcpierz/pgconnect#readme",
+  "devDependencies": {
+    "eslint": "^6.4.0",
+    "eslint-config-google": "^0.14.0"
+  },
+  "dependencies": {
+    "serve-favicon": "^2.5.0"
+  }
 }
