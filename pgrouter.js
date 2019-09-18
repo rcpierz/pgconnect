@@ -27,37 +27,44 @@ router.get('/entries', (req,res) => {
 
 router.get('/entries/total', (req, res) => {
   console.log('[ROUT] GET /entries/total');
-  pgservice.findTotal( (output) => res.send(output));
+  pgservice.findTotal()
+      .then( output => res.send(output.rows));
 });
 
 router.get('/entries/column/:column', (req, res)=>{
   console.log('[ROUT] GET /entries/column/'+req.params.column);
-  pgservice.findByColumn(req.params.column, (output) => res.send(output));
+  pgservice.findByColumn(req.params.column)
+      .then( output => res.send(output.rows));
 });
 
 router.get('/entries/:id', (req, res) => {
   console.log('[ROUT] GET /entries/'+req.params.id);
-  pgservice.findById(req.params.id, (output) => res.send(output));
+  pgservice.findById(req.params.id)
+      .then( (output) => res.send(output.rows));
 });
 
 router.post('/entries', (req, res) => {
   console.log('[ROUT] POST /entries');
-  pgservice.addEntry(req, () => res.send('202 REQUEST RECEIVED'));
+  pgservice.addEntry(req)
+      .then( () => res.send('202 REQUEST RECEIVED'));
 });
 
 router.delete('/entries/:id', (req, res) => {
   console.log('[ROUT] DELETE /entries/'+req.params.id);
-  pgservice.deleteEntry(req.params.id, () => res.send('202 REQUEST RECEIVED'));
+  pgservice.deleteEntry(req.params.id)
+      .then( () => res.send('202 REQUEST RECEIVED'));
 });
 
 router.patch('/entries/:id', (req, res) => {
   console.log('[ROUT] PATCH /entries/'+req.params.id);
-  pgservice.updateEntryPartial(req.params.id, req.body.column, req.body.value, (output) => res.send('202 ACCEPTED'));
+  pgservice.updateEntryPartial(req.params.id, req.body.column, req.body.value)
+      .then( (output) => res.send('202 ACCEPTED'));
 });
 
 router.put('/entries/:id', (req, res) => {
   console.log('[ROUT] PUT /entries/'+req.params.id);
-  pgservice.updateEntryFull(req, () => res.send('202 ACCEPTED'));
+  pgservice.updateEntryFull(req)
+      .then( () => res.send('202 ACCEPTED'));
 });
 
 
