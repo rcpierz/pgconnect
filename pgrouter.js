@@ -19,22 +19,34 @@ router.get('/test', (req, res) => {
   res.send('Test Endpoint reached');
 });
 
-router.get('/entries', (req,res) => {
+router.get('/entries', (req, res) => {
   console.log('[ROUT] GET /entries');
   pgservice.findAll()
-      .then( output => res.send(output.rows));
+      .then( (output) => res.send(output.rows));
 });
 
 router.get('/entries/total', (req, res) => {
   console.log('[ROUT] GET /entries/total');
   pgservice.findTotal()
-      .then( output => res.send(output.rows));
+      .then( (output) => res.send(output.rows[0]));
+});
+
+router.get('/entries/average', (req, res) => {
+  console.log('[ROUT] GET /entries/average');
+  pgservice.findAverage()
+      .then( (output) => res.send(output.rows[0]));
 });
 
 router.get('/entries/column/:column', (req, res)=>{
   console.log('[ROUT] GET /entries/column/'+req.params.column);
   pgservice.findByColumn(req.params.column)
-      .then( output => res.send(output.rows));
+      .then( (output) => res.send(output.rows));
+});
+
+router.get('/entries/source/:source', (req,res)=>{
+  console.log('[ROUT] GET /entries/source/'+req.params.source);
+  pgservice.findBySource(req.params.source)
+      .then( (output) => res.send(output.rows));
 });
 
 router.get('/entries/:id', (req, res) => {
@@ -46,8 +58,8 @@ router.get('/entries/:id', (req, res) => {
 router.post('/entries', (req, res) => {
   console.log('[ROUT] POST /entries');
   pgservice.addEntry(req)
-    .then( pgservice.findById(req.body.id)
-      .then( (output) => res.send(output.rows) ));
+      .then( pgservice.findById(req.body.id)
+          .then( (output) => res.send(output.rows) ));
 });
 
 router.delete('/entries/:id', (req, res) => {
@@ -67,6 +79,7 @@ router.put('/entries/:id', (req, res) => {
   pgservice.updateEntryFull(req)
       .then( () => res.send('202 ACCEPTED'));
 });
+
 
 
 module.exports = router;
