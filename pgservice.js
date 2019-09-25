@@ -16,13 +16,13 @@ exports.testLog = function() {
 };
 
 exports.findAll = function() {
-  var query = 'SELECT * FROM dailyexpense;');
+  var query = 'SELECT * FROM dailyexpense;';
   console.log('[SRVC] searching for all entries in dailyexpense table');
   return client.query(query);
 };
 
 exports.findByColumn = function(column) {
-  var query = 'SELECT $1 FROM dailyexpense;');
+  var query = 'SELECT $1 FROM dailyexpense;';
   var values = [column];
   console.log('[SRVC] searching dailyexpense table with criterion column = '+
 	  column);
@@ -38,21 +38,22 @@ exports.findById = function(id) {
 
 findLastId = function() {
   var query = 'SELECT id FROM dailyexpense ORDER BY id DESC LIMIT 1';
-  console.log('Finding last ID for data entries');
+  console.log('[SRVC] identifying last ID for data entries');
   return client.query(query);
 }
 
 exports.addEntry = function(req) {
-  findLastId().then( output => { 
-	  var lastId = output.rows[0].id;
-          console.log(lastId)});
-  console.log(lastId);
-  console.log('[SRVC] adding a new entry to dailyexpense table with body = '+JSON.stringify(req.body));
-  return client.query('INSERT INTO dailyexpense VALUES('+req.body.id+',\''+req.body.date+'\',\''+req.body.meal+'\',\''+req.body.source+'\',\''+req.body.item+'\','+req.body.cost+');');
+  console.log('[SRVC] adding a new entry to dailyexpense table with the body = '+JSON.stringify(req.body));
+  return findLastId().then( output => { 
+    var lastId = output.rows[0].id;
+    var query = 'INSERT INTO dailyexpense VALUES($1, $2, $3, $4, $5, $6);';
+    var values = [lastId+1, req.body.date, req.body.meal, req.body.source, req.body.item, req.body.cost];
+    return client.query(query, values);
+  });
 };
 
 exports.deleteEntry = function(id) {
-  var query = 'DELETE FROM dailyexpense WHERE id = ';
+  var query = 'DELETE FROM dailyexpense WHERE id = $1';
   var values = [id];
   console.log('[SRVC] deleting entries with id = '+id);
   return client.query(query, values);
