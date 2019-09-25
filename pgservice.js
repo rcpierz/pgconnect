@@ -22,22 +22,21 @@ exports.findAll = function() {
 };
 
 exports.findByColumn = function(column) {
-  var query = 'SELECT $1 FROM dailyexpense;';
-  var values = [column];
+  var query = 'SELECT '+column+' FROM dailyexpense;';
   console.log('[SRVC] searching dailyexpense table with criterion column = '+
 	  column);
-  return client.query(query, values);
+  return client.query(query);
 };
 
 exports.findById = function(id) {
-  var query = 'SELECT * FROM dailyexpense WHERE id = $1';
+  var query = 'SELECT * FROM dailyexpense WHERE id = $1;';
   var values = [id];
   console.log('[SRVC] searching dailyexpense table for entry with id = '+id);
   return client.query(query, values);
 };
 
 findLastId = function() {
-  var query = 'SELECT id FROM dailyexpense ORDER BY id DESC LIMIT 1';
+  var query = 'SELECT id FROM dailyexpense ORDER BY id DESC LIMIT 1;';
   console.log('[SRVC] identifying last ID for data entries');
   return client.query(query);
 }
@@ -49,21 +48,25 @@ exports.addEntry = function(req) {
     var query = 'INSERT INTO dailyexpense VALUES($1, $2, $3, $4, $5, $6);';
     var values = [lastId+1, req.body.date, req.body.meal, req.body.source, req.body.item, req.body.cost];
     return client.query(query, values);
+  }, output => {
+    return "Could not locate ID";
   });
 };
 
 exports.deleteEntry = function(id) {
-  var query = 'DELETE FROM dailyexpense WHERE id = $1';
+  var query = 'DELETE FROM dailyexpense WHERE id = $1;';
   var values = [id];
   console.log('[SRVC] deleting entries with id = '+id);
   return client.query(query, values);
 };
 
 exports.updateEntryPartial = function(id, column, value) {
-  var query = 'UPDATE dailyexpense SET $1 = $2 WHERE id = $3';
-  var values = [column, value, id];
+  var query = 'UPDATE dailyexpense SET '+column+' = $1 WHERE id = $2;';
+  var values = [value, id];
   console.log('[SRVC] updating entry where id = '+id+': column '+column+'='+value);
   return client.query(query, values);
+  //console.log('temporary testing update entry partial with hardcode');
+  //return client.query('UPDATE dailyexpense SET '+column+' = \''+value+'\' WHERE id = '+id+';');
 };
 
 exports.updateEntryFull = function(req) {
