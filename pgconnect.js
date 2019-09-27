@@ -23,18 +23,18 @@ app.use( (req, res, next) => {
 app.use('/v1', router);
 
 app.use( (req, res, next) => {
-  const err = new Error("Not found");
+  const err = new Error('Not found');
   err.status = 404;
   next(err);
-})
+});
 
-//Error handler
+// Error handler
 app.use( (err, req, res, next) => {
   res.status(err.status || 500);
   res.json({
     error: {
-      message: err.message
-    }
+      message: err.message,
+    },
   });
 });
 
