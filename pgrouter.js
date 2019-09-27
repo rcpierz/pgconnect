@@ -70,8 +70,18 @@ router.post('/entries', (req, res) => {
   pgservice.addEntry(req)
       .then(entryId => {
         pgservice.findById(entryId)
-          .then( (output) => res.send(output.rows[0]) 
-        )});
+          .then(
+            (output) => {
+              if (output.rows != '') {
+                res.send(output.rows[0]);
+              } else {
+                res.status(500).json({
+                  error: 'Could not locate entry'}
+              );
+              }
+            }
+          )
+      });
 });
 
 router.delete('/entries/:id', (req, res) => {
@@ -84,7 +94,7 @@ router.patch('/entries/:id', (req, res) => {
   console.log('[ROUT] PATCH /entries/'+req.params.id);
   pgservice.updateEntryPartial(req.params.id, req.body.column, req.body.value)
       .then( pgservice.findById(req.params.id)
-          .then( (output) => res.send(output.rows[0]))
+          .then((output) => res.send(output.rows[0]))
       );
 });
 
